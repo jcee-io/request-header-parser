@@ -17,7 +17,7 @@ app.get('*', async (req,res) => {
 	const OSInfo = UA.slice(openIndex + 1, closeIndex);
 
 	const { data } = await axios('https://api.ipify.org?format=json');
-	const ipaddress = req.ip;
+	const ipaddress = req.headers['x-forwarded-for'];
 	const language = await osLocale();
 	const software = OSInfo;
 
