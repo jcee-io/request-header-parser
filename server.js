@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const osLocale = require('os-locale');
 const axios = require('axios');
 
 const app = express();
@@ -18,7 +17,7 @@ app.get('*', async (req,res) => {
 
 	const { data } = await axios('https://api.ipify.org?format=json');
 	const ipaddress = req.headers['x-forwarded-for'];
-	const language = await osLocale();
+	const language = req.language['accept-language'].split(',')[0];
 	const software = OSInfo;
 
 	res.json({ ipaddress, language, software });
