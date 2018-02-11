@@ -7,27 +7,21 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('*', (req,res) => {
-	// ========== OS/UA INFO ===============
+app.get('*', async (req,res) => {
 	const UA = req.headers['user-agent'];
 	const openIndex = UA.indexOf('(');
 	const closeIndex = UA.indexOf(')');
+
+	console.log(req.headers);
+	console.log(req.ip);
 	const OSInfo = UA.slice(openIndex + 1, closeIndex);
+
+	const { data } = await axios('https://api.ipify.org?format=json');
+	const ipaddress = req.ip;
+	const language = await osLocale();
 	const software = OSInfo;
 
-	// ========= IP AND LANGUAGE =============
-	let ipaddress, language;
-
-	axios('https://api.ipify.org?format=json')
-	  .then(({ data }) => {
-	  	ipaddress = data.ip;
-
-	  	return osLocale();
-	  })
-	  .then(local => {
-	  	language = local;
-			res.json({ ipaddress, language, software });
-	  });
+	res.json({ ipaddress, language, software });
 });
 
 
