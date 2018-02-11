@@ -11,10 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "os-locale": "^2.1.0",
-    "public-ip": "^2.4.0",
     "ua-parser-js": "^0.7.17"
   }
 }

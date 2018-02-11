@@ -1,10 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const ip = require('public-ip');
 const osLocale = require('os-locale');
-const UAparser = require('ua-parser-js');
+const axios = require('axios');
 
-const parser = new UAparser();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,7 +14,8 @@ app.get('*', async (req,res) => {
 
 	const OSInfo = UA.slice(openIndex + 1, closeIndex);
 
-	const ipaddress = await ip.v4();
+	const { data } = await axios('https://api.ipify.org?format=json');
+	const ipaddress = data.ip;
 	const language = await osLocale();
 	const software = OSInfo;
 
